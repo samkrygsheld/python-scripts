@@ -80,7 +80,7 @@ def main():
     parser.add_argument("-i", "--input", help="input file")
     parser.add_argument("-o", "--output", default='out.png', help="output file")
     parser.add_argument("-dir", "--dir", default='./out/', help="output directory")
-    parser.add_argument("-f", "--frame", default='spell', help='frame type (original, modern, full)')
+    parser.add_argument("-f", "--frame", default='modern', help='frame type (original, modern, full)')
     parser.add_argument("-t", "--type", default='spell', help='card type (creature, other)')
     parser.add_argument("-b", "--bcolor", default='black', help='border color')
 
