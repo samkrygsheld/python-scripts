@@ -17,7 +17,7 @@ def sf2mpcOF(image, output, dir, type, bcolor):
 
 def sf2mpcMF(image, output, dir, type, bcolor):
     # Remove old border
-    image = image.crop((26,26,646,910))
+    image = image.crop((29,27,646,910))
 
     # Resize
     image = image.resize((690,984), Image.ANTIALIAS)
