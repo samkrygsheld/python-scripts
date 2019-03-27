@@ -25,6 +25,18 @@ def sf2mpcMF(image, output, dir, type, bcolor):
     # Add new border
     image = ImageOps.expand(image,border=66,fill=bcolor)
 
+    return image
+
+def sf2mpcPMF(image, output, dir, type, bcolor):
+    # Remove old border
+    image = image.crop((29,27,646,910))
+
+    # Resize
+    image = image.resize((690,984), Image.ANTIALIAS)
+
+    # Add new border
+    image = ImageOps.expand(image,border=66,fill=bcolor)
+
     # Cover the copyright text
     draw = ImageDraw.Draw(image)
 
@@ -60,7 +72,9 @@ def sf2mpc(input, output, dir, frame, type, bcolor):
     # Adjust brightness
     image = ImageEnhance.Brightness(image).enhance(1.07)
 
-    if 'modern' in frame:
+    if 'postmodern' in frame:
+        image = sf2mpcPMF(image, output, dir, type, bcolor)
+    elif 'modern' in frame:
         image = sf2mpcMF(image, output, dir, type, bcolor)
     else:
         image = sf2mpcOF(image, output, dir, type, bcolor)
@@ -80,7 +94,7 @@ def main():
     parser.add_argument("-i", "--input", help="input file")
     parser.add_argument("-o", "--output", default='out.png', help="output file")
     parser.add_argument("-dir", "--dir", default='./out/', help="output directory")
-    parser.add_argument("-f", "--frame", default='modern', help='frame type (original, modern, full)')
+    parser.add_argument("-f", "--frame", default='postmodern', help='frame type (original, modern, postmodern, full)')
     parser.add_argument("-t", "--type", default='spell', help='card type (creature, other)')
     parser.add_argument("-b", "--bcolor", default='black', help='border color')
 
