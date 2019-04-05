@@ -67,11 +67,12 @@ def img2mpcMtgPMF(image, output, dir, type, bcolor):
     return image
 
 def img2mpcFFTCG(image, output, dir, bcolor):
+
     # Resize
-    image = image.resize((690,984), Image.ANTIALIAS)
+    image = image.resize((786,1080), Image.ANTIALIAS)
 
     # Add bleed area
-    image = ImageOps.expand(image,border=66,fill=bcolor)
+    image = ImageOps.expand(image,border=36,fill=bcolor)
 
     return image
 
