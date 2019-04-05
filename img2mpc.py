@@ -3,7 +3,7 @@
 import os, pathlib, sys, argparse
 from PIL import Image, ImageDraw, ImageEnhance, ImageOps
 
-def sf2mpcOF(image, output, dir, type, bcolor):
+def img2mpcMtgOF(image, output, dir, type, bcolor):
     # Remove old border
     image = image.crop((33,36,638,898))
 
@@ -15,7 +15,7 @@ def sf2mpcOF(image, output, dir, type, bcolor):
 
     return image
 
-def sf2mpcMF(image, output, dir, type, bcolor):
+def img2mpcMtgMF(image, output, dir, type, bcolor):
     # Remove old border
     image = image.crop((29,27,646,910))
 
@@ -27,7 +27,7 @@ def sf2mpcMF(image, output, dir, type, bcolor):
 
     return image
 
-def sf2mpcPMF(image, output, dir, type, bcolor):
+def img2mpcMtgPMF(image, output, dir, type, bcolor):
     # Remove old border
     image = image.crop((29,27,646,910))
 
@@ -66,18 +66,30 @@ def sf2mpcPMF(image, output, dir, type, bcolor):
 
     return image
 
-def sf2mpc(input, output, dir, frame, type, bcolor):
+def img2mpcFFTCG(image, output, dir, bcolor):
+    # Resize
+    image = image.resize((690,984), Image.ANTIALIAS)
+
+    # Add bleed area
+    image = ImageOps.expand(image,border=66,fill=bcolor)
+
+    return image
+
+def img2mpc(input, output, dir, game, frame, type, bcolor):
     image = Image.open(input)
 
-    # Adjust brightness
-    image = ImageEnhance.Brightness(image).enhance(1.07)
-
-    if 'postmodern' in frame:
-        image = sf2mpcPMF(image, output, dir, type, bcolor)
-    elif 'modern' in frame:
-        image = sf2mpcMF(image, output, dir, type, bcolor)
+    if 'fftcg' in game:
+        image = img2mpcFFTCG(image, output, dir, bcolor)
     else:
-        image = sf2mpcOF(image, output, dir, type, bcolor)
+        # Adjust brightness
+        image = ImageEnhance.Brightness(image).enhance(1.07)
+
+        if 'postmodern' in frame:
+            image = img2mpcMtgPMF(image, output, dir, type, bcolor)
+        elif 'modern' in frame:
+            image = img2mpcMtgMF(image, output, dir, type, bcolor)
+        else:
+            image = img2mpcMtgOF(image, output, dir, type, bcolor)
 
     # Save new image
     if not os.path.exists(dir):
@@ -89,12 +101,13 @@ def sf2mpc(input, output, dir, frame, type, bcolor):
         image.save(dir + output + '.png')
 
 def main():
-    parser = argparse.ArgumentParser(description='Converts a scryfall image to MPC.')
+    parser = argparse.ArgumentParser(description='Converts images to MPC.')
     parser.add_argument("-a", "--all", help="convert all images in current directory", action='store_true')
     parser.add_argument("-i", "--input", help="input file")
     parser.add_argument("-o", "--output", default='out.png', help="output file")
-    parser.add_argument("-dir", "--dir", default='./out/', help="output directory")
-    parser.add_argument("-f", "--frame", default='postmodern', help='frame type (original, modern, postmodern, full)')
+    parser.add_argument("-d", "--dir", default='./out/', help="output directory")
+    parser.add_argument("-g", "--game", default='mtg', help="game (mtg, fftcg)")
+    parser.add_argument("-f", "--frame", default='postmodern', help='mtg frame type (original, modern, postmodern, full)')
     parser.add_argument("-t", "--type", default='spell', help='card type (creature, other)')
     parser.add_argument("-b", "--bcolor", default='black', help='border color')
 
@@ -105,10 +118,10 @@ def main():
     args = parser.parse_args()
 
     if (args.all):
-        for image in pathlib.Path('./').glob('*.jpg'):
-            sf2mpc(image, image.stem + ".png", args.dir, args.frame, args.type, args.bcolor)    
+        for image in pathlib.Path('./').glob('*.png'):
+            img2mpc(image, image.stem + ".png", args.dir, args.game, args.frame, args.type, args.bcolor)    
     else:
-        sf2mpc(args.input, args.output, args.dir, args.frame, args.type, args.bcolor)
+        img2mpc(args.input, args.output, args.dir, args.game, args.frame, args.type, args.bcolor)
 
 if __name__== "__main__":
   main()
