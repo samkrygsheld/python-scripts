@@ -118,7 +118,7 @@ def main():
     args = parser.parse_args()
 
     if (args.all):
-        for image in pathlib.Path('./').glob('*.png'):
+        for image in pathlib.Path('./').glob('*.jpg'):
             img2mpc(image, image.stem + ".png", args.dir, args.game, args.frame, args.type, args.bcolor)    
     else:
         img2mpc(args.input, args.output, args.dir, args.game, args.frame, args.type, args.bcolor)
