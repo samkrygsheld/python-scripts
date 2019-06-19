@@ -1,0 +1,44 @@
+#!/usr/bin/python3
+
+import os, re, sys
+from pathlib import Path
+
+name = ""
+cards_main = []
+cards_sb = []
+sb_count = 0
+
+if len(sys.argv) == 1:
+    print('xmage2forge.py <file>')
+elif not os.path.isfile(sys.argv[1]):
+    print('No such file: ''%s''' % sys.argv[1])
+else:
+    with open(sys.argv[1]) as f:
+        for line in f:
+            if re.match(r"^NAME:.*$",line):
+                name = line.split(":", 1)[1]
+            if re.match(r"^\d+.*$",line):
+                card = line.split(" ", 2)
+                cards_main.append(['%s %s%s' % (card[0], card[2].strip(), card[1].split(':', 1)[0].replace('[', '|'))])
+            if re.match(r"^SB:.*$",line):
+                card = line.split(" ", 3)
+                cards_sb.append(['%s %s%s' % (card[1], card[3].strip(), card[2].split(':', 1)[0].replace('[', '|'))])
+                sb_count += 1
+
+    f = open(Path('new'+sys.argv[1]).name, "w")
+
+    f.write('[metadata]\n')
+    f.write('Name='+name)
+    if sb_count is 1:
+        f.write('[Commander]\n')
+        f.write(cards_sb[0][0]+'\n')
+    f.write('[Main]\n')
+    for i in range(0, len(cards_main)):
+        f.write(cards_main[i][0]+'\n')
+    if sb_count > 1:
+        f.write('[Sideboard]\n')
+        for i in range(0, len(cards_sb)):
+            f.write(cards_sb[i][0]+'\n')
+
+    f.close()
+

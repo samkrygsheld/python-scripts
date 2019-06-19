@@ -9,4 +9,5 @@
 | iheart-pyradio.py |   |
 | img2mpc.py | Converts images to MPC formatted images  |
 | nb2maildir.py |   |
+| xmage2forge.py | Converts Xmage decks to Forge format  |
 | yturl.py |   |
