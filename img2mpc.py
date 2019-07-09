@@ -84,25 +84,6 @@ def img2mpcMtgNLF(image, output, dir, type, bcolor):
     else:
         draw.rectangle([(480,1008), (740, 1040)], fill = (23,20,15) )
 
-    # Round off the top corners
-#    draw.line((66, 66, 74, 66), fill=bcolor)
-#    draw.line((66, 67, 72, 67), fill=bcolor)
-#    draw.line((66, 68, 69, 68), fill=bcolor)
-#    draw.line((66, 69, 68, 69), fill=bcolor)
-#    draw.line((66, 70, 68, 70), fill=bcolor)
-#    draw.line((66, 71, 67, 71), fill=bcolor)
-#    draw.line((66, 72, 67, 72), fill=bcolor)
-#    draw.line((66, 73, 66, 73), fill=bcolor)
-
-#    draw.line((747, 66, 755, 66), fill=bcolor)
-#    draw.line((749, 67, 756, 67), fill=bcolor)
-#    draw.line((752, 68, 757, 68), fill=bcolor)
-#    draw.line((753, 69, 758, 69), fill=bcolor)
-#    draw.line((753, 70, 759, 70), fill=bcolor)
-#    draw.line((754, 71, 760, 71), fill=bcolor)
-#    draw.line((754, 72, 761, 72), fill=bcolor)
-#    draw.line((755, 73, 762, 73), fill=bcolor)
-
     return image
 
 def img2mpcFFTCG(image, output, dir, bcolor):
