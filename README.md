@@ -1,3 +1,5 @@
+Python3 solution for converting Scryfall images to MPC. See https://www.reddit.com/r/mpcproxies/comments/b5jmuj/scryfall_to_mpc_python_script/. Use -t for creature cards. Use -b to select a different background color.
+
 | Script | Description  |
 | :---: | :---: |
 | 1g1r.py |   |
